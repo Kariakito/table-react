@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { uuid } from 'uuidv4';
 
 const initialProductList = [
   { id: 1, name: 'product 1' , price: 50, quantity: 1 },
@@ -12,6 +13,8 @@ const initialProductList = [
 
 function App() {
   const [products, setProducts] = useState (initialProductList);
+  const [newProductName, setNewProductName] = useState ('--type the name product here--');
+  const [newProductPrice, setNewProductPrice] = useState (0);
 
   function calculateTotalPrice () {
     let totalPrice = 0;
@@ -37,6 +40,17 @@ function App() {
     });
     }
 
+  function addNewItem (){
+   // console.log('working');
+
+   const newProductInfo = {id: uuid() , name:'New product', price: 30, quantity:3};
+   //console.log(newProductInfo);
+   //products.push(newProductInfo);
+   //console.log(products);
+
+   setProducts ([...products, newProductInfo]);
+  }
+
   return (
     <div>
       <h1>Orders Table</h1>
@@ -48,7 +62,7 @@ function App() {
             <th>Name</th>
             <th>Price</th>
             <th>Qty </th>
-            <th> Item Total price and qty</th>
+            <th> Item Total </th>
           </tr>
 
           </thead>
@@ -60,19 +74,25 @@ function App() {
           
         </table>
 
-        <h4>total price of all the product in table= xxxx</h4>
+        <h4>total price of all the product in table= {calculateTotalPrice()}</h4>
 
 
         <h3>Add Item</h3>
 
-        <label thmlFor="">Product</label>
-        <input type="text" />
+        <label htmlFor="">Product Name</label>
+        <input type="text" value={newProductName} onChange={(event) => {
+          setNewProductName(event.target.value);
+          
+        }}/>
 
 
-        <label thmlFor="">Price</label>
-        <input type="text" />
+        <label htmlFor="">Price</label>
+        <input type="text" value={newProductPrice} onChange={(event) => {
+          setNewProductPrice(event.target.value);
+          
+        }}/>
 
-        <button>Enter Product</button>
+        <button onClick={addNewItem}>Enter Product</button>
 
     </div>
   );
